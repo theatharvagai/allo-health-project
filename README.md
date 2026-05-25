@@ -16,6 +16,10 @@
   <img src="https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css" />
 </div>
 
+<div align="center">
+  <h3>🌍 <a href="https://allo-health-project3.vercel.app/">Live Deployment: https://allo-health-project3.vercel.app/</a> 🌍</h3>
+</div>
+
 <br />
 
 Welcome to the **Allo Health Inventory System**! 👋 Built for the Allo Health Engineering team, this platform provides high-concurrency real-time reservations for medicines and medical equipment across multiple Allo Health centres in India.
@@ -130,6 +134,18 @@ sequenceDiagram
    ```bash
    npm run dev
    ```
+
+---
+
+## 🌍 Live Deployment
+
+The project is successfully deployed on Vercel. 
+
+**🔗 Live Demo:** [https://allo-health-project3.vercel.app/](https://allo-health-project3.vercel.app/)
+
+<div align="center">
+  <img src="./public/screenshots/deployment.png" alt="Vercel Deployment Screenshot" width="600" style="border-radius: 8px; border: 1px solid #ccc;"/>
+</div>
 
 ---
 
