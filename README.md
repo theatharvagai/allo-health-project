@@ -1,4 +1,8 @@
 <div align="center">
+  <h3>🌍 <a href="https://allo-health-project3.vercel.app/">Live Deployment: https://allo-health-project3.vercel.app/</a> 🌍</h3>
+</div>
+
+<div align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=800&size=42&pause=1000&color=2E7D32&center=true&vCenter=true&width=800&lines=Allo+Health+Inventory+System;Real-Time+Pharmacy+Reservations;Built+with+Next.js+%26+Redis;High-Concurrency+Ready!" alt="Typing SVG" />
 </div>
 
