@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-  <img src="dashboard.png" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=800&size=30&duration=2000&pause=1000&color=32CD32&width=900&center=true&lines=ALLO+HEALTH+DASHBOARD;Real-time+Inventory+Management;10-Minute+Reserve+Hold+Window;Secure+Pessimistic+Locking;Idempotent+API+Architecture" alt="Typing Animation" />
 </div>
 
 <div align="center">
