@@ -27,13 +27,13 @@ export async function POST(
         Array<{
           id: string;
           status: string;
-          expires_at: Date;
+          expiresAt: Date;
           quantity: number;
-          product_id: string;
-          warehouse_id: string;
+          productId: string;
+          warehouseId: string;
         }>
       >`
-        SELECT id, status, expires_at, quantity, product_id, warehouse_id
+        SELECT id, status, "expiresAt", quantity, "productId", "warehouseId"
         FROM reservations
         WHERE id = ${id}
         FOR UPDATE
@@ -50,34 +50,36 @@ export async function POST(
       }
 
       // Check expiry
-      if (new Date(reservation.expires_at) < new Date()) {
+      if (new Date(reservation.expiresAt) < new Date()) {
         // Mark as released and restore stock
         await tx.$executeRaw`
-          UPDATE reservations SET status = 'RELEASED', updated_at = NOW()
+          UPDATE reservations
+          SET status = 'RELEASED', "updatedAt" = NOW()
           WHERE id = ${id}
         `;
         await tx.$executeRaw`
           UPDATE stock_levels
-          SET reserved_units = GREATEST(reserved_units - ${reservation.quantity}, 0),
-              updated_at = NOW()
-          WHERE product_id = ${reservation.product_id}
-            AND warehouse_id = ${reservation.warehouse_id}
+          SET "reservedUnits" = GREATEST("reservedUnits" - ${reservation.quantity}, 0),
+              "updatedAt"     = NOW()
+          WHERE "productId"   = ${reservation.productId}
+            AND "warehouseId" = ${reservation.warehouseId}
         `;
         throw new Error("EXPIRED");
       }
 
-      // Confirm: decrement both totalUnits and reservedUnits (permanent sale)
+      // Confirm: permanently decrement both totalUnits and reservedUnits
       await tx.$executeRaw`
-        UPDATE reservations SET status = 'CONFIRMED', updated_at = NOW()
+        UPDATE reservations
+        SET status = 'CONFIRMED', "updatedAt" = NOW()
         WHERE id = ${id}
       `;
       await tx.$executeRaw`
         UPDATE stock_levels
-        SET total_units    = GREATEST(total_units - ${reservation.quantity}, 0),
-            reserved_units = GREATEST(reserved_units - ${reservation.quantity}, 0),
-            updated_at     = NOW()
-        WHERE product_id  = ${reservation.product_id}
-          AND warehouse_id = ${reservation.warehouse_id}
+        SET "totalUnits"    = GREATEST("totalUnits" - ${reservation.quantity}, 0),
+            "reservedUnits" = GREATEST("reservedUnits" - ${reservation.quantity}, 0),
+            "updatedAt"     = NOW()
+        WHERE "productId"   = ${reservation.productId}
+          AND "warehouseId" = ${reservation.warehouseId}
       `;
 
       return await tx.reservation.findUnique({
@@ -115,9 +117,7 @@ export async function POST(
       if (error.message.startsWith("WRONG_STATUS:")) {
         const status = error.message.split(":")[1];
         return NextResponse.json(
-          {
-            error: `Cannot confirm a reservation with status: ${status}`,
-          },
+          { error: `Cannot confirm a reservation with status: ${status}` },
           { status: 409 }
         );
       }

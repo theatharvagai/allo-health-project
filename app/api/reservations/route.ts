@@ -43,17 +43,19 @@ export async function POST(req: NextRequest) {
   try {
     const reservation = await prisma.$transaction(async (tx) => {
       // 1. Lock the specific stock row (FOR UPDATE blocks concurrent writers)
+      //    NOTE: column names are quoted camelCase because Prisma did not apply @map
+      //    to individual fields — it keeps them as-is in Postgres.
       const stockRows = await tx.$queryRaw<
         Array<{
           id: string;
-          total_units: number;
-          reserved_units: number;
+          totalUnits: number;
+          reservedUnits: number;
         }>
       >`
-        SELECT id, total_units, reserved_units
+        SELECT id, "totalUnits", "reservedUnits"
         FROM stock_levels
-        WHERE product_id = ${productId}
-          AND warehouse_id = ${warehouseId}
+        WHERE "productId" = ${productId}
+          AND "warehouseId" = ${warehouseId}
         FOR UPDATE
       `;
 
@@ -62,28 +64,28 @@ export async function POST(req: NextRequest) {
       }
 
       const stock = stockRows[0];
-      const available = stock.total_units - stock.reserved_units;
+      const available = stock.totalUnits - stock.reservedUnits;
 
       if (available < quantity) {
         throw new Error("INSUFFICIENT_STOCK");
       }
 
-      // 2. Also release any expired PENDING reservations for this SKU
-      // (lazy cleanup — avoids a separate cron for basic cases)
+      // 2. Lazy cleanup: release expired PENDING reservations for this SKU
+      //    inside the same transaction — no separate cron needed for correctness.
       await tx.$executeRaw`
         UPDATE reservations
-        SET status = 'RELEASED', updated_at = NOW()
-        WHERE product_id = ${productId}
-          AND warehouse_id = ${warehouseId}
-          AND status = 'PENDING'
-          AND expires_at < NOW()
+        SET status = 'RELEASED', "updatedAt" = NOW()
+        WHERE "productId"  = ${productId}
+          AND "warehouseId" = ${warehouseId}
+          AND status       = 'PENDING'
+          AND "expiresAt"  < NOW()
       `;
 
-      // 3. Atomically increment reserved_units
+      // 3. Atomically increment reservedUnits
       await tx.$executeRaw`
         UPDATE stock_levels
-        SET reserved_units = reserved_units + ${quantity},
-            updated_at     = NOW()
+        SET "reservedUnits" = "reservedUnits" + ${quantity},
+            "updatedAt"     = NOW()
         WHERE id = ${stock.id}
       `;
 
@@ -108,7 +110,7 @@ export async function POST(req: NextRequest) {
     const responseBody = reservation;
     const responseStatus = 201;
 
-    // Cache for idempotency
+    // Cache for idempotency (24h TTL via Redis)
     if (idempotencyKey) {
       await storeIdempotency(idempotencyKey, responseStatus, responseBody);
     }

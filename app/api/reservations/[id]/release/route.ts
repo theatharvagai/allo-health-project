@@ -18,11 +18,11 @@ export async function POST(
           id: string;
           status: string;
           quantity: number;
-          product_id: string;
-          warehouse_id: string;
+          productId: string;
+          warehouseId: string;
         }>
       >`
-        SELECT id, status, quantity, product_id, warehouse_id
+        SELECT id, status, quantity, "productId", "warehouseId"
         FROM reservations
         WHERE id = ${id}
         FOR UPDATE
@@ -40,15 +40,16 @@ export async function POST(
 
       // Release: restore reservedUnits
       await tx.$executeRaw`
-        UPDATE reservations SET status = 'RELEASED', updated_at = NOW()
+        UPDATE reservations
+        SET status = 'RELEASED', "updatedAt" = NOW()
         WHERE id = ${id}
       `;
       await tx.$executeRaw`
         UPDATE stock_levels
-        SET reserved_units = GREATEST(reserved_units - ${reservation.quantity}, 0),
-            updated_at     = NOW()
-        WHERE product_id   = ${reservation.product_id}
-          AND warehouse_id = ${reservation.warehouse_id}
+        SET "reservedUnits" = GREATEST("reservedUnits" - ${reservation.quantity}, 0),
+            "updatedAt"     = NOW()
+        WHERE "productId"   = ${reservation.productId}
+          AND "warehouseId" = ${reservation.warehouseId}
       `;
 
       return await tx.reservation.findUnique({
@@ -69,9 +70,7 @@ export async function POST(
       if (error.message.startsWith("WRONG_STATUS:")) {
         const status = error.message.split(":")[1];
         return NextResponse.json(
-          {
-            error: `Cannot release a reservation with status: ${status}`,
-          },
+          { error: `Cannot release a reservation with status: ${status}` },
           { status: 409 }
         );
       }

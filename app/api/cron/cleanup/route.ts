@@ -45,19 +45,19 @@ export async function GET(req: NextRequest) {
       for (const res of expired) {
         await tx.$executeRaw`
           UPDATE stock_levels
-          SET reserved_units = GREATEST(reserved_units - ${res.quantity}, 0),
-              updated_at     = NOW()
-          WHERE product_id   = ${res.productId}
-            AND warehouse_id = ${res.warehouseId}
+          SET "reservedUnits" = GREATEST("reservedUnits" - ${res.quantity}, 0),
+              "updatedAt"     = NOW()
+          WHERE "productId"   = ${res.productId}
+            AND "warehouseId" = ${res.warehouseId}
         `;
       }
 
       await tx.$executeRaw`
         UPDATE reservations
-        SET status     = 'RELEASED',
-            updated_at = NOW()
+        SET status      = 'RELEASED',
+            "updatedAt" = NOW()
         WHERE status     = 'PENDING'
-          AND expires_at < NOW()
+          AND "expiresAt" < NOW()
       `;
     });
 
