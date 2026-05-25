@@ -1,7 +1,19 @@
-# 🏥 Allo Health Inventory System
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=800&size=42&pause=1000&color=2E7D32&center=true&vCenter=true&width=800&lines=Allo+Health+Inventory+System;Real-Time+Pharmacy+Reservations;Built+with+Next.js+%26+Redis;High-Concurrency+Ready!" alt="Typing SVG" />
+</div>
 
 <div align="center">
-  <img src="./public/screenshots/homepage.png" alt="Homepage Screenshot" width="800"/>
+  <img src="./public/screenshots/homepage.png" alt="Homepage Screenshot" width="800" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #e0e0e0;" />
+</div>
+
+<br />
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" />
+  <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma" />
+  <img src="https://img.shields.io/badge/Neon-Postgres-00E599?style=for-the-badge&logo=postgresql&logoColor=black" />
+  <img src="https://img.shields.io/badge/Upstash-Redis-FF0000?style=for-the-badge&logo=redis&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css" />
 </div>
 
 <br />
@@ -24,13 +36,13 @@ Welcome to the **Allo Health Inventory System**! 👋 Built for the Allo Health 
 ### 1. Reserving an Item
 Reserve directly from the centre with the most stock. The UI shows low stock warnings (animations included!).
 <div align="center">
-  <img src="./public/screenshots/homepage.png" alt="Reserve Dialog" width="600"/>
+  <img src="./public/screenshots/homepage.png" alt="Reserve Dialog" width="600" style="border-radius: 8px; border: 1px solid #ccc;"/>
 </div>
 
 ### 2. Live Countdown Checkout
 Once reserved, the inventory is locked. You have 10 minutes to confirm the purchase.
 <div align="center">
-  <img src="./public/screenshots/checkout.png" alt="Checkout Timer" width="600"/>
+  <img src="./public/screenshots/checkout.png" alt="Checkout Timer" width="600" style="border-radius: 8px; border: 1px solid #ccc;"/>
 </div>
 
 ---
