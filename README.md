@@ -44,19 +44,19 @@ Welcome to the **Allo Health Inventory System**! 👋 Built for the Allo Health 
 ### 1. The Pharmacy Homepage
 Clean, responsive Material UI displaying live stock across 5 Allo Health centres.
 <div align="center">
-  <img src="./public/screenshots/homepage.png" alt="Homepage Screenshot" width="800" style="border-radius: 8px; border: 1px solid #ccc;"/>
+  <img src="home.png" style="border-radius: 8px; border: 1px solid #ccc;"/>
 </div>
 
 ### 2. Reserving an Item
 Reserve directly from the centre with the most stock. The UI shows low stock warnings and live quantity limits.
 <div align="center">
-  <img src="./public/screenshots/reserve-modal.png" alt="Reserve Dialog" width="800" style="border-radius: 8px; border: 1px solid #ccc;"/>
+  <img src="item.png" style="border-radius: 8px; border: 1px solid #ccc;"/>
 </div>
 
 ### 3. Live Countdown Checkout
 Once reserved, the inventory is locked. You have 10 minutes to confirm the purchase.
 <div align="center">
-  <img src="./public/screenshots/checkout.png" alt="Checkout Timer" width="800" style="border-radius: 8px; border: 1px solid #ccc;"/>
+  <img src="timer.png" alt="Checkout Timer" width="800" style="border-radius: 8px; border: 1px solid #ccc;"/>
 </div>
 
 ---
