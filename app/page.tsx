@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { useLocalReservations } from "@/lib/use-local-reservations";
 
 interface StockLevel {
   id: string;
@@ -59,6 +60,7 @@ export default function HomePage() {
   const [reserving, setReserving] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const { addReservation } = useLocalReservations();
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -111,6 +113,7 @@ export default function HomePage() {
         toast.error("Reservation failed", { description: data.error });
         return;
       }
+      addReservation(data.id);
       setDialogOpen(false);
       toast.success("Reservation created!", {
         description: `${selectedProduct.name} held for 10 mins at ${selectedWarehouse.warehouse.name}.`,

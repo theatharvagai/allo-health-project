@@ -33,7 +33,7 @@ async function main() {
       data: {
         name: "Metformin 500mg Tablets",
         description: "First-line oral antidiabetic medication for Type 2 Diabetes management. 30-tablet strip. Prescription required.",
-        imageUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+        imageUrl: "/products/metformin.png",
       },
     }),
     // 2. Omeprazole (Antacid)
@@ -41,7 +41,7 @@ async function main() {
       data: {
         name: "Omeprazole 20mg Capsules",
         description: "Proton pump inhibitor for acid reflux, GERD, and peptic ulcer treatment. 14-capsule pack.",
-        imageUrl: "https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400",
+        imageUrl: "/products/omeprazole.png",
       },
     }),
     // 3. Digital BP Monitor
@@ -49,7 +49,7 @@ async function main() {
       data: {
         name: "Automatic BP Monitor (Upper Arm)",
         description: "Clinically validated blood pressure monitor with large LCD display, irregular heartbeat detection, and memory for 60 readings.",
-        imageUrl: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400",
+        imageUrl: "/products/bp_monitor.png",
       },
     }),
     // 4. Pulse Oximeter
@@ -57,7 +57,7 @@ async function main() {
       data: {
         name: "Fingertip Pulse Oximeter",
         description: "Medical-grade SpO2 and heart rate monitor. Fast 6-second reading. OLED display. Includes carry case and lanyard.",
-        imageUrl: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=400",
+        imageUrl: "/products/oximeter.png",
       },
     }),
     // 5. Glucometer Kit
@@ -65,7 +65,7 @@ async function main() {
       data: {
         name: "Blood Glucose Glucometer Kit",
         description: "Includes glucometer device, 10 test strips, lancets, and lancing device. Results in 5 seconds. No coding required.",
-        imageUrl: "https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=400",
+        imageUrl: "/products/glucometer.png",
       },
     }),
     // 6. Cetirizine (Antihistamine)
@@ -73,7 +73,7 @@ async function main() {
       data: {
         name: "Cetirizine 10mg Tablets",
         description: "Second-generation antihistamine for allergic rhinitis, urticaria, and seasonal allergies. Non-drowsy formula. 10-tablet strip.",
-        imageUrl: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=400",
+        imageUrl: "/products/cetirizine.png",
       },
     }),
     // 7. Nebulizer
@@ -81,7 +81,7 @@ async function main() {
       data: {
         name: "Compressor Nebulizer Machine",
         description: "For asthma, COPD, and respiratory conditions. Converts liquid medication into fine mist. Includes adult and child masks. Quiet operation.",
-        imageUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+        imageUrl: "/products/nebulizer.png",
       },
     }),
     // 8. Vitamin D3 + K2
@@ -89,7 +89,7 @@ async function main() {
       data: {
         name: "Vitamin D3 + K2 Supplements",
         description: "High-potency Vitamin D3 2000 IU with K2-MK7 100mcg for bone health, immunity, and calcium absorption. 60 softgel capsules.",
-        imageUrl: "https://images.unsplash.com/photo-1550572017-4fcdbb59cc32?w=400",
+        imageUrl: "/products/vitamin.png",
       },
     }),
     // 9. Rapid Antigen Test Kit
@@ -97,7 +97,7 @@ async function main() {
       data: {
         name: "Rapid Antigen Test Kit",
         description: "ICMR-approved home antigen test. Accurate results in 15 minutes. Easy self-collection nasal swab. Includes extraction tube and test card.",
-        imageUrl: "https://images.unsplash.com/photo-1615461066841-6116e61058f4?w=400",
+        imageUrl: "/products/antigen.png",
       },
     }),
   ]);
