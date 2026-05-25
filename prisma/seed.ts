@@ -2,14 +2,11 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
-});
-
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log("🌱 Seeding database...");
+  console.log("🌱 Seeding Allo Health database...");
 
   // Clear existing data
   await prisma.reservation.deleteMany();
@@ -17,103 +14,143 @@ async function main() {
   await prisma.product.deleteMany();
   await prisma.warehouse.deleteMany();
 
-  // Create warehouses
-  const warehouseMumbai = await prisma.warehouse.create({
-    data: { name: "Mumbai Central", location: "Mumbai, Maharashtra" },
-  });
-  const warehouseDelhi = await prisma.warehouse.create({
-    data: { name: "Delhi North Hub", location: "New Delhi, Delhi" },
-  });
-  const warehouseBangalore = await prisma.warehouse.create({
-    data: { name: "Bangalore Tech Park", location: "Bengaluru, Karnataka" },
-  });
+  // ── Allo Health Centres (Warehouses) ──────────────────────────────────────
+  const centres = await Promise.all([
+    prisma.warehouse.create({ data: { name: "Allo Health Bangalore", location: "Koramangala, Bengaluru, Karnataka" } }),
+    prisma.warehouse.create({ data: { name: "Allo Health Delhi", location: "Connaught Place, New Delhi" } }),
+    prisma.warehouse.create({ data: { name: "Allo Health Hyderabad", location: "Banjara Hills, Hyderabad, Telangana" } }),
+    prisma.warehouse.create({ data: { name: "Allo Health Chennai", location: "Anna Nagar, Chennai, Tamil Nadu" } }),
+    prisma.warehouse.create({ data: { name: "Allo Health Mumbai", location: "Andheri West, Mumbai, Maharashtra" } }),
+  ]);
 
-  console.log("✅ Warehouses created");
+  const [bangalore, delhi, hyderabad, chennai, mumbai] = centres;
+  console.log("✅ Allo Health Centres created (Bangalore, Delhi, Hyderabad, Chennai, Mumbai)");
 
-  // Create products
+  // ── Pharmacy Products (9) ─────────────────────────────────────────────────
   const products = await Promise.all([
+    // 1. Metformin (Diabetes medicine)
     prisma.product.create({
       data: {
-        name: "Sony WH-1000XM5 Headphones",
-        description:
-          "Industry-leading noise cancelling wireless headphones with 30-hour battery life and crystal clear hands-free calling.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
+        name: "Metformin 500mg Tablets",
+        description: "First-line oral antidiabetic medication for Type 2 Diabetes management. 30-tablet strip. Prescription required.",
+        imageUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
       },
     }),
+    // 2. Omeprazole (Antacid)
     prisma.product.create({
       data: {
-        name: "Apple MacBook Air M2",
-        description:
-          "Supercharged by M2 chip. Strikingly thin design, 15.3-inch Liquid Retina display, up to 18 hours battery.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400",
+        name: "Omeprazole 20mg Capsules",
+        description: "Proton pump inhibitor for acid reflux, GERD, and peptic ulcer treatment. 14-capsule pack.",
+        imageUrl: "https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400",
       },
     }),
+    // 3. Digital BP Monitor
     prisma.product.create({
       data: {
-        name: 'Samsung 4K OLED TV 55"',
-        description:
-          "Quantum HDR OLED, Neural Quantum Processor 4K, Object Tracking Sound, and Gaming Hub built-in.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400",
+        name: "Automatic BP Monitor (Upper Arm)",
+        description: "Clinically validated blood pressure monitor with large LCD display, irregular heartbeat detection, and memory for 60 readings.",
+        imageUrl: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400",
       },
     }),
+    // 4. Pulse Oximeter
     prisma.product.create({
       data: {
-        name: "Nike Air Max 270",
-        description:
-          "Inspired by two icons of big Air: the Air Max 180 and Air Max 93. Max air cushioning in heel.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
+        name: "Fingertip Pulse Oximeter",
+        description: "Medical-grade SpO2 and heart rate monitor. Fast 6-second reading. OLED display. Includes carry case and lanyard.",
+        imageUrl: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=400",
       },
     }),
+    // 5. Glucometer Kit
     prisma.product.create({
       data: {
-        name: "Dyson V15 Detect Vacuum",
-        description:
-          "Laser reveals hidden dust. Intelligent suction adapts to floor type. 60 min run time.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
+        name: "Blood Glucose Glucometer Kit",
+        description: "Includes glucometer device, 10 test strips, lancets, and lancing device. Results in 5 seconds. No coding required.",
+        imageUrl: "https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=400",
       },
     }),
+    // 6. Cetirizine (Antihistamine)
     prisma.product.create({
       data: {
-        name: "Kindle Paperwhite (16GB)",
-        description:
-          "3 months free Kindle Unlimited. 6.8\" display, adjustable warm light, waterproof, weeks of battery.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400",
+        name: "Cetirizine 10mg Tablets",
+        description: "Second-generation antihistamine for allergic rhinitis, urticaria, and seasonal allergies. Non-drowsy formula. 10-tablet strip.",
+        imageUrl: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=400",
+      },
+    }),
+    // 7. Nebulizer
+    prisma.product.create({
+      data: {
+        name: "Compressor Nebulizer Machine",
+        description: "For asthma, COPD, and respiratory conditions. Converts liquid medication into fine mist. Includes adult and child masks. Quiet operation.",
+        imageUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+      },
+    }),
+    // 8. Vitamin D3 + K2
+    prisma.product.create({
+      data: {
+        name: "Vitamin D3 + K2 Supplements",
+        description: "High-potency Vitamin D3 2000 IU with K2-MK7 100mcg for bone health, immunity, and calcium absorption. 60 softgel capsules.",
+        imageUrl: "https://images.unsplash.com/photo-1550572017-4fcdbb59cc32?w=400",
+      },
+    }),
+    // 9. Rapid Antigen Test Kit
+    prisma.product.create({
+      data: {
+        name: "Rapid Antigen Test Kit",
+        description: "ICMR-approved home antigen test. Accurate results in 15 minutes. Easy self-collection nasal swab. Includes extraction tube and test card.",
+        imageUrl: "https://images.unsplash.com/photo-1615461066841-6116e61058f4?w=400",
       },
     }),
   ]);
 
-  console.log("✅ Products created");
+  console.log(`✅ ${products.length} pharmacy products created`);
 
-  // Create stock levels
+  // ── Stock Levels per Centre ───────────────────────────────────────────────
+  // Spread stock realistically — some centres have low stock to demo alerts
   const stockData = [
-    // Sony Headphones
-    { product: products[0], warehouse: warehouseMumbai, total: 50, reserved: 0 },
-    { product: products[0], warehouse: warehouseDelhi, total: 30, reserved: 0 },
-    { product: products[0], warehouse: warehouseBangalore, total: 1, reserved: 0 }, // low stock!
-    // MacBook Air
-    { product: products[1], warehouse: warehouseMumbai, total: 15, reserved: 0 },
-    { product: products[1], warehouse: warehouseDelhi, total: 8, reserved: 0 },
-    { product: products[1], warehouse: warehouseBangalore, total: 12, reserved: 0 },
-    // Samsung TV
-    { product: products[2], warehouse: warehouseMumbai, total: 20, reserved: 0 },
-    { product: products[2], warehouse: warehouseDelhi, total: 5, reserved: 0 },
-    // Nike Air Max
-    { product: products[3], warehouse: warehouseMumbai, total: 100, reserved: 0 },
-    { product: products[3], warehouse: warehouseDelhi, total: 75, reserved: 0 },
-    { product: products[3], warehouse: warehouseBangalore, total: 60, reserved: 0 },
-    // Dyson Vacuum
-    { product: products[4], warehouse: warehouseMumbai, total: 10, reserved: 0 },
-    { product: products[4], warehouse: warehouseBangalore, total: 3, reserved: 0 },
-    // Kindle
-    { product: products[5], warehouse: warehouseMumbai, total: 200, reserved: 0 },
-    { product: products[5], warehouse: warehouseDelhi, total: 150, reserved: 0 },
-    { product: products[5], warehouse: warehouseBangalore, total: 1, reserved: 0 }, // last unit!
+    // 1. Metformin
+    { product: products[0], warehouse: bangalore, total: 200, reserved: 0 },
+    { product: products[0], warehouse: delhi, total: 150, reserved: 0 },
+    { product: products[0], warehouse: hyderabad, total: 1, reserved: 0 },  // last one!
+    { product: products[0], warehouse: chennai, total: 100, reserved: 0 },
+    // 2. Omeprazole
+    { product: products[1], warehouse: bangalore, total: 80, reserved: 0 },
+    { product: products[1], warehouse: mumbai, total: 60, reserved: 0 },
+    { product: products[1], warehouse: delhi, total: 3, reserved: 0 },      // low stock
+    // 3. BP Monitor
+    { product: products[2], warehouse: bangalore, total: 25, reserved: 0 },
+    { product: products[2], warehouse: delhi, total: 15, reserved: 0 },
+    { product: products[2], warehouse: hyderabad, total: 10, reserved: 0 },
+    { product: products[2], warehouse: chennai, total: 5, reserved: 0 },    // low stock
+    { product: products[2], warehouse: mumbai, total: 20, reserved: 0 },
+    // 4. Pulse Oximeter
+    { product: products[3], warehouse: bangalore, total: 40, reserved: 0 },
+    { product: products[3], warehouse: hyderabad, total: 1, reserved: 0 },  // last one!
+    { product: products[3], warehouse: mumbai, total: 30, reserved: 0 },
+    // 5. Glucometer Kit
+    { product: products[4], warehouse: delhi, total: 18, reserved: 0 },
+    { product: products[4], warehouse: chennai, total: 12, reserved: 0 },
+    { product: products[4], warehouse: bangalore, total: 2, reserved: 0 },  // low stock
+    // 6. Cetirizine
+    { product: products[5], warehouse: bangalore, total: 300, reserved: 0 },
+    { product: products[5], warehouse: delhi, total: 250, reserved: 0 },
+    { product: products[5], warehouse: hyderabad, total: 180, reserved: 0 },
+    { product: products[5], warehouse: chennai, total: 200, reserved: 0 },
+    { product: products[5], warehouse: mumbai, total: 220, reserved: 0 },
+    // 7. Nebulizer
+    { product: products[6], warehouse: bangalore, total: 8, reserved: 0 },
+    { product: products[6], warehouse: delhi, total: 5, reserved: 0 },
+    { product: products[6], warehouse: mumbai, total: 3, reserved: 0 },     // low stock
+    // 8. Vitamin D3 + K2
+    { product: products[7], warehouse: bangalore, total: 120, reserved: 0 },
+    { product: products[7], warehouse: hyderabad, total: 90, reserved: 0 },
+    { product: products[7], warehouse: chennai, total: 75, reserved: 0 },
+    { product: products[7], warehouse: mumbai, total: 60, reserved: 0 },
+    // 9. Rapid Antigen Test
+    { product: products[8], warehouse: bangalore, total: 500, reserved: 0 },
+    { product: products[8], warehouse: delhi, total: 400, reserved: 0 },
+    { product: products[8], warehouse: hyderabad, total: 1, reserved: 0 },  // last one!
+    { product: products[8], warehouse: chennai, total: 350, reserved: 0 },
+    { product: products[8], warehouse: mumbai, total: 300, reserved: 0 },
   ];
 
   await Promise.all(
@@ -129,22 +166,17 @@ async function main() {
     )
   );
 
-  console.log("✅ Stock levels created");
+  console.log(`✅ ${stockData.length} stock records created`);
   console.log(`
-🎉 Seed complete!
-   - ${products.length} products
-   - 3 warehouses
-   - ${stockData.length} stock records
-
-   Tip: Some items have only 1 unit — perfect for testing race conditions!
+🏥 Allo Health Seed Complete!
+   - ${products.length} pharmacy products & medical equipment
+   - 5 Allo Health centres (Bangalore, Delhi, Hyderabad, Chennai, Mumbai)
+   - ${stockData.length} stock level records
+   
+   Some centres have only 1 unit — perfect for testing pessimistic locking!
   `);
 }
 
 main()
-  .catch((e) => {
-    console.error("❌ Seed failed:", e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+  .catch((e) => { console.error("❌ Seed failed:", e); process.exit(1); })
+  .finally(async () => { await prisma.$disconnect(); });
