@@ -1,6 +1,12 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
+
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log("🌱 Seeding database...");
@@ -31,7 +37,8 @@ async function main() {
         name: "Sony WH-1000XM5 Headphones",
         description:
           "Industry-leading noise cancelling wireless headphones with 30-hour battery life and crystal clear hands-free calling.",
-        imageUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
+        imageUrl:
+          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
       },
     }),
     prisma.product.create({
@@ -39,15 +46,17 @@ async function main() {
         name: "Apple MacBook Air M2",
         description:
           "Supercharged by M2 chip. Strikingly thin design, 15.3-inch Liquid Retina display, up to 18 hours battery.",
-        imageUrl: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400",
+        imageUrl:
+          "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400",
       },
     }),
     prisma.product.create({
       data: {
-        name: "Samsung 4K OLED TV 55\"",
+        name: 'Samsung 4K OLED TV 55"',
         description:
           "Quantum HDR OLED, Neural Quantum Processor 4K, Object Tracking Sound, and Gaming Hub built-in.",
-        imageUrl: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400",
+        imageUrl:
+          "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400",
       },
     }),
     prisma.product.create({
@@ -55,7 +64,8 @@ async function main() {
         name: "Nike Air Max 270",
         description:
           "Inspired by two icons of big Air: the Air Max 180 and Air Max 93. Max air cushioning in heel.",
-        imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
+        imageUrl:
+          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
       },
     }),
     prisma.product.create({
@@ -63,7 +73,8 @@ async function main() {
         name: "Dyson V15 Detect Vacuum",
         description:
           "Laser reveals hidden dust. Intelligent suction adapts to floor type. 60 min run time.",
-        imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
+        imageUrl:
+          "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
       },
     }),
     prisma.product.create({
@@ -71,7 +82,8 @@ async function main() {
         name: "Kindle Paperwhite (16GB)",
         description:
           "3 months free Kindle Unlimited. 6.8\" display, adjustable warm light, waterproof, weeks of battery.",
-        imageUrl: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400",
+        imageUrl:
+          "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400",
       },
     }),
   ]);
@@ -121,10 +133,10 @@ async function main() {
   console.log(`
 🎉 Seed complete!
    - ${products.length} products
-   - 3 warehouses  
+   - 3 warehouses
    - ${stockData.length} stock records
-   
-   Note: Some items have only 1 unit (great for testing race conditions!)
+
+   Tip: Some items have only 1 unit — perfect for testing race conditions!
   `);
 }
 
