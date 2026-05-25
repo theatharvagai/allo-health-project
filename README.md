@@ -50,7 +50,7 @@ Clean, responsive Material UI displaying live stock across 5 Allo Health centres
 ### 2. Reserving an Item
 Reserve directly from the centre with the most stock. The UI shows low stock warnings and live quantity limits.
 <div align="center">
-  <img src="item.png" style="border-radius: 8px; border: 1px solid #ccc;"/>
+  <img src="items.png" style="border-radius: 8px; border: 1px solid #ccc;"/>
 </div>
 
 ### 3. Live Countdown Checkout
