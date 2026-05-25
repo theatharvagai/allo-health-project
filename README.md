@@ -148,7 +148,7 @@ The project is successfully deployed on Vercel.
 **🔗 Live Demo:** [https://allo-health-project3.vercel.app/](https://allo-health-project3.vercel.app/)
 
 <div align="center">
-  <img src="./public/screenshots/deployment.png" alt="Vercel Deployment Screenshot" width="600" style="border-radius: 8px; border: 1px solid #ccc;"/>
+  <img src="vercel.png" width="600" style="border-radius: 8px; border: 1px solid #ccc;"/>
 </div>
 
 ---
